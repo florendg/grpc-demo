@@ -1,25 +1,31 @@
-syntax  = "proto3";
+syntax = "proto2";
 
 option java_multiple_files = true;
-option java_package = "com.altran.igjava.grpc.demo";
-option java_outer_classname = "RouteGuideProto";
+option java_package = "net.vulture.grpc.demo";
+option java_outer_classname = "AddressBookProtos";
 
-option objc_class_prefix = "RTG";
+package tutorial;
 
-package routeguide;
+message Person {
+    required string name = 1;
+    required int32 id = 2;
+    optional string email = 3;
 
-service RouteGuide {
-    rpc GetFeature(Point) returns (Feature) {}
+    enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
+
+    message PhoneNumber {
+        required string number = 1;
+        optional PhoneType type = 2 [default = HOME];
+    }
+
+    repeated PhoneNumber phones = 4;
 }
 
-message Point {
-    int32 latitude = 1;
-    int32 longitude = 2;
-}
-
-
-message Feature {
-    string name = 1;
-    Point location = 2;
+message AddressBook {
+    repeated Person people = 1;
 }
 

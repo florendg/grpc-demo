@@ -1,5 +1,5 @@
 plugins {
-    id "com.google.protobuf" version "0.8.3"
+    id "com.google.protobuf" version "0.8.10"
     id "java"
 }
 
@@ -9,36 +9,31 @@ repositories {
 }
 
 dependencies {
-    compile group: 'io.grpc', name: 'grpc-protobuf', version: '1.8.0'
-    compile 'io.grpc:grpc-netty:1.8.0'
-    compile 'io.grpc:grpc-protobuf:1.8.0'
-    compile 'io.grpc:grpc-stub:1.8.0'
-}
-
-protobuf {
-    protoc {
-        artifact = 'com.google.protobuf:protoc:3.5.1-1'
-    }
-
-    plugins {
-        grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java:1.8.0'
-        }
-    }
-
-    generateProtoTasks{
-        all()*.plugins {
-            grpc {}
-        }
-    }
-
+     compile 'com.google.protobuf:protobuf-java:3.9.0'
 }
 
 sourceSets {
     main {
+        proto {
+            srcDir 'src/main/proto'
+            srcDir 'src/main/protocolbuffers'
+        }
         java {
-            srcDirs  "$buildDir/generated/source/proto/main/grpc"
-            srcDirs  "$buildDir/generated/source/proto/main/java"
+            srcDir "$buildDir/generated/source/proto/main/java"
+            srcDir 'src/main/java'
+        }
+    }
+    test {
+        proto {
+            srcDir 'src/test/protocolbuffers'
         }
     }
 }
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.9.0'
+    }
+}
+
+
